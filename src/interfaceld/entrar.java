@@ -132,7 +132,7 @@ public class entrar extends javax.swing.JFrame {
                 linhaDoTempo.setVisible(true);
                 linhaDoTempo.setResizable(true);
                 try {
-                    linhaDoTempo.bemVindo();
+                    linhaDoTempo.bemVindo(log.email);
                 } catch (Exception ex) {
                     Logger.getLogger(entrar.class.getName()).log(Level.SEVERE, null, ex);
                 }

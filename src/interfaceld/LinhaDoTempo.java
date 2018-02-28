@@ -20,22 +20,18 @@ public class LinhaDoTempo extends javax.swing.JFrame {
     
     public LinhaDoTempo(){
         initComponents();
-        try {
-            this.bemVindo();
-        } catch (Exception ex) {
-            Logger.getLogger(LinhaDoTempo.class.getName()).log(Level.SEVERE, null, ex);
-        }
+       
     }
-        public void bemVindo()throws Exception{
+        public void bemVindo(String email)throws Exception{
         entrar log = new entrar();
         String url = "jdbc:oracle:thin:@localhost:1521:xe";
-        String sql = "select nome from dadosUser where email='"+log.log.email+"'";
+        String sql = "select nome from dadosUser where email='"+email+"'";
         try(Connection con = DriverManager.getConnection(url, "ldev", "ld");
             PreparedStatement stm = con.prepareStatement(sql);
             ResultSet rs = stm.executeQuery()){
             while(rs.next()){
                 String nome = rs.getString("nome");
-                bemVindo.setText("Bem vindo "+ nome);
+                bemVindo.setText(nome);
             }
         }
         
@@ -52,28 +48,27 @@ public class LinhaDoTempo extends javax.swing.JFrame {
     private void initComponents() {
 
         bemVindo = new javax.swing.JLabel();
+        bemVindoFrase = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(520, 520));
+        setPreferredSize(new java.awt.Dimension(520, 420));
+        getContentPane().setLayout(null);
 
         bemVindo.setFont(new java.awt.Font("Tempus Sans ITC", 1, 24)); // NOI18N
-        bemVindo.setText("Sua Linha do Tempo");
+        bemVindo.setText("nome");
+        getContentPane().add(bemVindo);
+        bemVindo.setBounds(100, 70, 70, 33);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(89, 89, 89)
-                .addComponent(bemVindo)
-                .addContainerGap(89, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(76, 76, 76)
-                .addComponent(bemVindo)
-                .addContainerGap(191, Short.MAX_VALUE))
-        );
+        bemVindoFrase.setFont(new java.awt.Font("Tempus Sans ITC", 1, 24)); // NOI18N
+        bemVindoFrase.setText("Bem Vindo");
+        getContentPane().add(bemVindoFrase);
+        bemVindoFrase.setBounds(100, 30, 130, 20);
+
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/bemVindo.jpg"))); // NOI18N
+        getContentPane().add(jLabel1);
+        jLabel1.setBounds(0, 0, 520, 380);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -119,5 +114,7 @@ public class LinhaDoTempo extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bemVindo;
+    private javax.swing.JLabel bemVindoFrase;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
