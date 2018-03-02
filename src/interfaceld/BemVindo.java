@@ -11,19 +11,24 @@ import java.util.logging.Logger;
  *
  * @author Eder
  */
-public class LinhaDoTempo extends javax.swing.JFrame {
+public class BemVindo extends javax.swing.JFrame {
 
     /**
      * Creates new form LinhaDoTempo
      * @throws java.lang.Exception
      */
     
-    public LinhaDoTempo(){
+    public BemVindo(){
         initComponents();
-       
+        
     }
+    
+    
+    
+    
+    
         public void bemVindo(String email)throws Exception{
-        entrar log = new entrar();
+        
         String url = "jdbc:oracle:thin:@localhost:1521:xe";
         String sql = "select nome from dadosUser where email='"+email+"'";
         try(Connection con = DriverManager.getConnection(url, "ldev", "ld");
@@ -35,7 +40,8 @@ public class LinhaDoTempo extends javax.swing.JFrame {
             }
         }
         
-        } 
+        }
+        
     
 
     /**
@@ -49,22 +55,35 @@ public class LinhaDoTempo extends javax.swing.JFrame {
 
         bemVindo = new javax.swing.JLabel();
         bemVindoFrase = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMaximumSize(new java.awt.Dimension(520, 520));
+        setMinimumSize(new java.awt.Dimension(520, 400));
         setPreferredSize(new java.awt.Dimension(520, 420));
         getContentPane().setLayout(null);
 
-        bemVindo.setFont(new java.awt.Font("Tempus Sans ITC", 1, 24)); // NOI18N
+        bemVindo.setFont(new java.awt.Font("Tempus Sans ITC", 1, 18)); // NOI18N
         bemVindo.setText("nome");
         getContentPane().add(bemVindo);
-        bemVindo.setBounds(100, 70, 70, 33);
+        bemVindo.setBounds(90, 60, 210, 40);
 
         bemVindoFrase.setFont(new java.awt.Font("Tempus Sans ITC", 1, 24)); // NOI18N
         bemVindoFrase.setText("Bem Vindo");
         getContentPane().add(bemVindoFrase);
         bemVindoFrase.setBounds(100, 30, 130, 20);
+
+        jButton1.setBackground(new java.awt.Color(1, 167, 157));
+        jButton1.setText("SKIP >>>");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1);
+        jButton1.setBounds(10, 330, 130, 40);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/bemVindo.jpg"))); // NOI18N
         getContentPane().add(jLabel1);
@@ -72,6 +91,24 @@ public class LinhaDoTempo extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+
+        // TODO add your handling code here:
+        Perfil pf = new Perfil();
+        entrar log = new entrar();
+        pf.setLocationRelativeTo(null);
+        pf.setVisible(true);
+        pf.setResizable(true);
+        try {
+            pf.dados(log.email);
+        } catch (Exception ex) {
+            Logger.getLogger(BemVindo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.dispose();
+        
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -90,13 +127,13 @@ public class LinhaDoTempo extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(LinhaDoTempo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BemVindo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(LinhaDoTempo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BemVindo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(LinhaDoTempo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BemVindo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(LinhaDoTempo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(BemVindo.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
@@ -104,9 +141,9 @@ public class LinhaDoTempo extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
-                    new LinhaDoTempo().setVisible(true);
+                    new BemVindo().setVisible(true);
                 } catch (Exception ex) {
-                    Logger.getLogger(LinhaDoTempo.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(BemVindo.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         });
@@ -115,6 +152,7 @@ public class LinhaDoTempo extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel bemVindo;
     private javax.swing.JLabel bemVindoFrase;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

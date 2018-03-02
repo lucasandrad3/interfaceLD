@@ -5,8 +5,13 @@
  */
 package interfaceld;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -20,6 +25,54 @@ public class Criar extends javax.swing.JFrame {
     public Criar() {
         initComponents();
     }
+    
+    String url = "jdbc:oracle:thin:@localhost:1521:xe";
+			String email;
+                        
+                        String nome;
+                        String senha;
+                        String data_nascimento;
+                        String area;	
+			String sql_inserir = "insert into dadosUser values(?,?,?,?,?)";
+                        public void create()throws Exception {
+                            int contador=0;
+                            try(Connection con = DriverManager.getConnection(url, "ldev", "ld");
+                            PreparedStatement stm = con.prepareStatement(sql_inserir)){
+                        
+                            
+                            
+                            
+                            String sql_checar = "select email from dadosUser";
+                            try(PreparedStatement stm2 = con.prepareStatement(sql_checar);
+                            ResultSet rs2 = stm2.executeQuery()){
+                            while(rs2.next()){
+                                if(rs2.getString("email").equals(this.email)){
+                                    contador +=1;                                  
+                                    break;
+                                }
+                                
+                                
+                        }if(contador==0){
+                            stm.setString(1, email);
+                            stm.setString(2, nome);
+                            stm.setString(3, senha);
+                            stm.setString(4, data_nascimento);
+                            stm.setString(5, area);
+                            stm.addBatch();
+                            stm.executeBatch();
+                            JOptionPane.showMessageDialog(null, "usuario Criado");
+                            this.dispose();
+                        }else if(contador>0){
+                        JOptionPane.showMessageDialog(null, "Email Ja cadastrado, Tente outro");
+                        
+                        }
+                    }
+    
+   }
+                        }
+    
+    
+    
 
 
     /**
@@ -146,13 +199,18 @@ public class Criar extends javax.swing.JFrame {
         try {
             // TODO add your handling code here:
             
-            CriarConta criar = new CriarConta();
-            criar.area = CriarArea.getText();
-            criar.data_nascimento = CriarNascimento.getText();
-            criar.email = CriarEmail.getText();
-            criar.nome = CriarNome.getText();
-            criar.senha = new String(CriarSenha.getPassword());
-            criar.create();
+           
+            email = CriarEmail.getText();
+            area = CriarArea.getText();
+            data_nascimento = CriarNascimento.getText();
+           
+            
+            
+            
+            nome = CriarNome.getText();
+            senha = new String(CriarSenha.getPassword());
+            this.create();
+            
         } catch (Exception ex) {
             Logger.getLogger(Criar.class.getName()).log(Level.SEVERE, null, ex);
         }

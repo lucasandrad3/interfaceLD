@@ -27,9 +27,34 @@ public class entrar extends javax.swing.JFrame {
         initComponents();
     }
     Criar Criarconta = new Criar();
-    LinhaDoTempo linhaDoTempo = new LinhaDoTempo();
-    logar log = new logar();
+    BemVindo mensagemBV = new BemVindo();
+    
 
+    
+    String url ="jdbc:oracle:thin:@localhost:1521:xe";
+    String sql;
+    String email;
+    String senha;
+
+	public boolean logar()throws Exception{
+            boolean logado = false;
+            sql = "select senha from dadosUser where email=('"+email+"')";
+            try(Connection con2 = DriverManager.getConnection(url, "ldev", "ld");
+            PreparedStatement stm2 = con2.prepareStatement(sql);
+            ResultSet rs2 = stm2.executeQuery()){
+            while(rs2.next()){
+                if(rs2.getString("senha").equals(senha)){
+                    logado = true;
+                    break;
+                }else{
+                    logado = false;
+                    break;
+                }
+            }
+            }                               		
+        return logado;
+    }
+    
     
     
     /**;
@@ -113,26 +138,32 @@ public class entrar extends javax.swing.JFrame {
     }//GEN-LAST:event_caixaEmailActionPerformed
 
     private void entrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_entrarActionPerformed
-            logar log = new logar();
-            log.email = caixaEmail.getText();
-            log.senha = new String(caixaSenha.getPassword());
-            boolean entrar = true;
+            
+            email = caixaEmail.getText();
+            senha = new String(caixaSenha.getPassword());
+            boolean logando = false;
+            
+       
         try {
-            entrar = log.entrar();
+            logando = this.logar();
         } catch (Exception ex) {
             Logger.getLogger(entrar.class.getName()).log(Level.SEVERE, null, ex);
         }
-            if(entrar==true){
+        
+        
+            if(logando==true){
                 try {
-                    linhaDoTempo = new LinhaDoTempo();
+                    mensagemBV = new BemVindo();
                 } catch (Exception ex) {
                     Logger.getLogger(entrar.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                linhaDoTempo.setLocationRelativeTo(null);
-                linhaDoTempo.setVisible(true);
-                linhaDoTempo.setResizable(true);
+                mensagemBV.setLocationRelativeTo(null);
+                mensagemBV.setVisible(true);
+                mensagemBV.setResizable(true);
+                                       
+                
                 try {
-                    linhaDoTempo.bemVindo(log.email);
+                    mensagemBV.bemVindo(email);
                 } catch (Exception ex) {
                     Logger.getLogger(entrar.class.getName()).log(Level.SEVERE, null, ex);
                 }
